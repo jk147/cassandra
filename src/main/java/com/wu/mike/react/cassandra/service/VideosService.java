@@ -25,10 +25,7 @@ public class VideosService {
 
     public Mono<Video> updateVideo(Mono<Video> videoMono) {
         Mono<Video> existingVideo = videoMono.flatMap(video -> videosRepository.findById(video.getVideoId()));
-
         return videoMono.zipWith(existingVideo, (vid, existingVid) -> new Video());
-
-        //return videoMono.flatMap(s -> videosRepository.save(s));
     }
 
     public Mono<Void> deleteVideo(UUID id) {
