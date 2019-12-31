@@ -8,6 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class VideosController {
 
     @GetMapping
     public Flux<Video> getVideos() {
-        return videosService.getVideosService();
+        return videosService.getVideos();
     }
 
     @PutMapping
@@ -32,7 +33,7 @@ public class VideosController {
     }
 
     @DeleteMapping("/{videoId}")
-    public Mono<Void> deleteVideo(@PathVariable String videoId) {
+    public Mono<Void> deleteVideo(@PathVariable UUID videoId) {
         return videosService.deleteVideo(videoId);
     }
 

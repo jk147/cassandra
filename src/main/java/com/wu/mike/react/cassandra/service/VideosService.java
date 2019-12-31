@@ -7,13 +7,15 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class VideosService {
 
     VideosRepository videosRepository;
 
-    public Flux<Video> getVideosService() {
+    public Flux<Video> getVideos() {
         return videosRepository.findAll();
     }
 
@@ -21,11 +23,15 @@ public class VideosService {
         return videoMono.flatMap(video -> videosRepository.insert(video));
     }
 
-    public Mono<Video> updateVideo(Mono<Video> video) {
-        return video.flatMap(s -> videosRepository.save(s));
+    public Mono<Video> updateVideo(Mono<Video> videoMono) {
+        Mono<Video> existingVideo = videoMono.flatMap(video -> videosRepository.findById(video.getVideoId()));
+
+        return videoMono.zipWith(existingVideo, (vid, existingVid) -> new Video());
+
+        //return videoMono.flatMap(s -> videosRepository.save(s));
     }
 
-    public Mono<Void> deleteVideo(String id) {
+    public Mono<Void> deleteVideo(UUID id) {
         return videosRepository.deleteById(id);
     }
 
