@@ -20,8 +20,9 @@ public class VideosRouter {
 
     @Bean
     RouterFunction<ServerResponse> routes(VideosHandler handler) {
-        return route(GET("/router-videos").and(accept(APPLICATION_JSON)), handler::getVideos)
-                .andRoute(POST("/router-videos").and(accept(APPLICATION_JSON)), handler::addVideo)
-                .andRoute(DELETE("/router-videos").and(accept(APPLICATION_JSON)), handler::deleteVideo);
+        return route(GET("/router-video").and(accept(APPLICATION_JSON)), handler::getVideos)
+                .andRoute(GET("/router-video/{videoId}").and(accept(APPLICATION_JSON)), handler::getVideo)
+                .andRoute(POST("/router-video").and(accept(APPLICATION_JSON)), handler::addVideo)
+                .andRoute(DELETE("/router-video").and(accept(APPLICATION_JSON)), handler::deleteVideo);
     }
 }
